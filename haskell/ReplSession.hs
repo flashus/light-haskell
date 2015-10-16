@@ -11,6 +11,34 @@ import System.Directory (getDirectoryContents)
 import Data.List (isSuffixOf)
 import Control.Monad (liftM)
 import Language.Haskell.Exts
+import Data.Maybe(fromJust)
+
+findStr :: String -> String -> Maybe Int
+findStr sub s
+          | length sub > length s      = Nothing
+          | take (length sub) s == sub = Just 0
+          | otherwise                  = fmap (+1) $ findStr sub $ drop 1 s
+
+rep::String->String->String->String
+rep s find repl
+  | findStr find s == Nothing = s
+  | otherwise = rep newS find repl
+  where
+    index = fromJust $ findStr find s
+    newS = take index s ++ repl ++ drop (index+ (length find)) s
+
+removeList=[("<interactive>",">"),("Prelude Data.List Data.Maybe| ",""),("Prelude Main| ",""),("Prelude Data.List Data.List.Split| ",""),("Prelude Data.Maybe| ",""),("Prelude| ",""),("Prelude Data.List.Split| ",""),("Prelude Data.List| ","")]
+
+clean::String->String
+clean s
+  | ln == [] = ""
+  | head ln == "" = unlines $ tail ln
+  | head ln == " " = unlines $ tail ln
+  | otherwise = unlines ln
+  where
+    newS = foldl (\str (find,repl)-> rep str find repl) s removeList
+    ln = lines newS
+
 
 data ReplSession = ReplSession {
   replIn :: Handle,
@@ -54,8 +82,8 @@ readEvalOutput (ReplSession _ out err _) = do
   let onlyOutput = take (length output - length "--EvalFinished\n") output
   hasErrorOutput <- hReady err
   if hasErrorOutput
-    then readAll err >>= \errorOutput -> return . Left $ errorOutput
-    else return . Right $ onlyOutput
+    then readAll err >>= \errorOutput -> return . Left $ clean errorOutput
+    else return . Right $ clean onlyOutput
 
 readUntil :: Handle -> (String -> Bool) -> IO String
 readUntil handle predicate = readUntil' handle "" predicate
