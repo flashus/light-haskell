@@ -55,13 +55,19 @@ executable light-haskell
     network >=2.4,
     directory ==1.2.*,
     containers ==0.5.*,
-    text ==1.1.*,
+    -- text ==1.1.*,
+    text >=1.1,
     bytestring ==0.10.*,
-    aeson ==0.7.*,
+    -- aeson ==0.7.*,
+    aeson >=0.7,
     process >=1.1,
-    ghc-mod >=5.1,
-    stylish-haskell ==0.5.*,
-    haskell-src-exts ==1.14.*
+    -- ghc-mod >=5.1,
+    ghc-mod ==5.3.*,
+    -- ghc-mod (>=5.1 && <5.4),    
+    -- stylish-haskell ==0.5.*,
+    stylish-haskell >=0.5,
+    -- haskell-src-exts ==1.14.*
+    haskell-src-exts >=1.14
 
   -- Directories containing source files.
   hs-source-dirs:      haskell
