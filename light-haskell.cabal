@@ -67,7 +67,8 @@ executable light-haskell
     -- stylish-haskell ==0.5.*,
     stylish-haskell >=0.5,
     -- haskell-src-exts ==1.14.*
-    haskell-src-exts >=1.14
+    haskell-src-exts >=1.14,
+    regex-compat ==0.95.*
 
   -- Directories containing source files.
   hs-source-dirs:      haskell
