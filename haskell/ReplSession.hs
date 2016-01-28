@@ -14,8 +14,9 @@ import Language.Haskell.Exts
 import Text.Regex
 
 clean::String->String
-clean s = subRegex (mkRegex "Prelude[^|]*\\|") s ""
-  
+-- clean s = subRegex (mkRegex "Prelude[^|]*\\|") s ""
+clean s = subRegex (mkRegex "\\*[^|]*\\|") s ""
+
 
 data ReplSession = ReplSession {
   replIn :: Handle,

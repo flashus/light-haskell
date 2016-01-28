@@ -4,3 +4,4 @@ dist
 target/
 .DS_Store
 .nrepl-port
+*.zip
